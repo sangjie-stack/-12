@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>乐高模型检测</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f7fb;
+      color: #17202a;
+    }
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #1f6feb, #7c3aed);
+      color: #fff;
+      padding: 28px;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(31, 111, 235, 0.18);
+    }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+    }
+    .hero p {
+      margin: 0;
+      opacity: 0.92;
+      line-height: 1.5;
+    }
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 22px;
+      margin-top: 20px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .generator-layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    label {
+      font-weight: 600;
+    }
+    input[type="file"],
+    input[type="number"],
+    select {
+      padding: 10px 12px;
+      border: 1px solid #d0d7e2;
+      border-radius: 12px;
+      background: #fff;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      background: #1f6feb;
+      color: #fff;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .btn:hover {
+      background: #175ed1;
+    }
+    .btn-secondary {
+      border: 1px solid #c6d0dd;
+      border-radius: 12px;
+      background: #fff;
+      color: #1f2937;
+      padding: 11px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .hint {
+      color: #52606d;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .error {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #fff1f2;
+      color: #b42318;
+      border: 1px solid #fecdd3;
+    }
+    .summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .summary li {
+      background: #eef4ff;
+      color: #1f4ea3;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+    .objects {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+    .object-item {
+      border: 1px solid #dbe4f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: #fafcff;
+    }
+    .img-box {
+      background: #f8fafc;
+      border: 1px solid #dbe4f0;
+      border-radius: 16px;
+      padding: 12px;
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-box img {
+      max-width: 100%;
+      max-height: 500px;
+      border-radius: 10px;
+      object-fit: contain;
+    }
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+    .subtle-title {
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: #1f2a37;
+    }
+    .stack-list {
+      display: grid;
+      gap: 12px;
+    }
+    .stack-item {
+      border: 1px solid #dbe4f0;
+      border-radius: 14px;
+      padding: 12px;
+      background: #fafcff;
+    }
+    .mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .row-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .canvas-panel,
+    .live-panel {
+      display: grid;
+      gap: 12px;
+    }
+    .live-status {
+      font-size: 14px;
+      color: #52606d;
+    }
+    .hidden {
+      display: none;
+    }
+    canvas {
+      width: 100%;
+      max-width: 740px;
+      background: #fff;
+      border: 1px solid #dbe4f0;
+      border-radius: 16px;
+      display: block;
+    }
+    @media (max-width: 920px) {
+      .grid,
+      .generator-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="hero">
+      <h1>乐高模型检测页面</h1>
+      <p>支持上传真实图片检测，也支持在前端直接生成乐高模型并自动识别长、宽、高。</p>
+    </div>
+
+    <div class="card">
+      <form method="post" enctype="multipart/form-data">
+        <div class="grid">
+          <div>
+            <div class="form-row">
+              <label for="image">选择图片</label>
+              <input id="image" name="image" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp" required>
+            </div>
+            <div class="form-row">
+              <label for="mode">检测模式</label>
+              <select id="mode" name="mode">
+                <option value="single" {% if selected_mode == 'single' %}selected{% endif %}>单主体：尺寸 + 层高</option>
+                <option value="size_only" {% if selected_mode == 'size_only' %}selected{% endif %}>单主体：只看尺寸</option>
+                <option value="height_only" {% if selected_mode == 'height_only' %}selected{% endif %}>单主体：只看层高</option>
+                <option value="multi_stack" {% if selected_mode == 'multi_stack' %}selected{% endif %}>多主体：堆叠层数</option>
+              </select>
+            </div>
+            <button class="btn" type="submit">开始检测</button>
+            <p class="hint">单块真实乐高更适合单主体模式；多个分开的堆叠主体适合多主体模式。</p>
+            {% if error %}
+              <div class="error">{{ error }}</div>
+            {% endif %}
+          </div>
+
+          <div>
+            <h2 class="section-title">说明</h2>
+            <p class="hint">上传区用于真实图片检测；下面的生成器用于自己搭一个长宽高模型，再交给后端检测。</p>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">前端生成乐高模型</h2>
+      <p class="hint">每个主体都可以自定义 `长 x 宽 x 高`。修改参数后，页面会自动重画并自动检测。</p>
+
+      <form id="generator-form" method="post">
+        <input type="hidden" name="mode" value="generated_multi">
+        <input type="hidden" id="generated_image" name="generated_image">
+
+        <div class="generator-layout">
+          <div>
+            <h3 class="subtle-title">主体列表</h3>
+            <div id="stack-list" class="stack-list"></div>
+            <div class="row-actions">
+              <button class="btn-secondary" type="button" id="add-stack">新增主体</button>
+              <button class="btn-secondary" type="button" id="reset-stacks">恢复示例</button>
+              <button class="btn" type="submit">立即检测</button>
+            </div>
+          </div>
+
+          <div class="canvas-panel">
+            <h3 class="subtle-title">模型画布</h3>
+            <canvas id="lego-canvas" width="740" height="440"></canvas>
+            <div class="row-actions">
+              <button class="btn-secondary" type="button" id="download-canvas">下载模型图</button>
+            </div>
+
+            <div class="live-panel">
+              <h3 class="subtle-title">实时检测结果</h3>
+              <div id="live-status" class="live-status">等待生成模型…</div>
+              <ul id="live-summary" class="summary hidden"></ul>
+              <div id="live-objects" class="objects hidden"></div>
+              <div class="grid">
+                <div class="img-box"><img id="live-original" alt="生成原图"></div>
+                <div class="img-box"><img id="live-annotated" alt="实时标注图"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    {% if result %}
+      <div class="card">
+        <h2 class="section-title">检测结果</h2>
+        {% if result.summary %}
+          <ul class="summary">
+            {% for item in result.summary %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if result.objects %}
+          <div class="objects">
+            {% for item in result.objects %}
+              <div class="object-item">
+                <strong>{{ item.name }}</strong>
+                <div>形态：{{ item.shape }}</div>
+                <div>置信度：{{ item.confidence }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h2 class="section-title">原图</h2>
+          <div class="img-box">
+            <img src="{{ original_image }}" alt="原图">
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">标注图</h2>
+          <div class="img-box">
+            <img src="{{ result.annotated_image }}" alt="标注图">
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <script>
+    const canvas = document.getElementById('lego-canvas');
+    const ctx = canvas.getContext('2d');
+    const stackList = document.getElementById('stack-list');
+    const generatedImageInput = document.getElementById('generated_image');
+    const generatorForm = document.getElementById('generator-form');
+    const addStackButton = document.getElementById('add-stack');
+    const resetStacksButton = document.getElementById('reset-stacks');
+    const downloadCanvasButton = document.getElementById('download-canvas');
+    const liveStatus = document.getElementById('live-status');
+    const liveSummary = document.getElementById('live-summary');
+    const liveObjects = document.getElementById('live-objects');
+    const liveOriginal = document.getElementById('live-original');
+    const liveAnnotated = document.getElementById('live-annotated');
+
+    const palettes = {
+      rainbow: ['#22c55e', '#facc15', '#ef4444', '#3b82f6'],
+      warm: ['#f59e0b', '#fb7185', '#ef4444', '#7c3aed'],
+      cool: ['#06b6d4', '#3b82f6', '#6366f1', '#8b5cf6'],
+      classic: ['#16a34a', '#facc15', '#dc2626', '#2563eb']
+    };
+
+    let stacks = [];
+    let detectTimer = null;
+    let requestSerial = 0;
+
+    function defaultStacks() {
+      return [
+        { x: 120, y: 340, length: 1, width: 1, height: 3, palette: 'classic' },
+        { x: 400, y: 350, length: 2, width: 4, height: 1, palette: 'cool' }
+      ];
+    }
+
+    function hexToRgb(hex) {
+      const value = hex.replace('#', '');
+      return {
+        r: parseInt(value.slice(0, 2), 16),
+        g: parseInt(value.slice(2, 4), 16),
+        b: parseInt(value.slice(4, 6), 16)
+      };
+    }
+
+    function shadeColor(hex, amount) {
+      const rgb = hexToRgb(hex);
+      const clamp = (value) => Math.max(0, Math.min(255, value));
+      return `rgb(${clamp(rgb.r + amount)}, ${clamp(rgb.g + amount)}, ${clamp(rgb.b + amount)})`;
+    }
+
+    function drawCheckerboard() {
+      const cell = 28;
+      for (let y = 0; y < canvas.height; y += cell) {
+        for (let x = 0; x < canvas.width; x += cell) {
+          ctx.fillStyle = ((x / cell + y / cell) % 2 === 0) ? '#eef2f7' : '#ffffff';
+          ctx.fillRect(x, y, cell, cell);
+        }
+      }
+    }
+
+    function drawStud(cx, cy) {
+      ctx.beginPath();
+      ctx.fillStyle = '#f3f4f6';
+      ctx.arc(cx, cy, 10.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#4b5563';
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#d1d5db';
+      ctx.arc(cx, cy, 5.5, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    function drawBlock(block) {
+      const studSize = 34;
+      const layerHeight = 55;
+      const dx = 18;
+      const dy = 12;
+      const frontWidth = block.length * studSize;
+      const depthX = block.width * dx;
+      const depthY = block.width * dy;
+      const colors = palettes[block.palette] || palettes.classic;
+
+      for (let layer = 0; layer < block.height; layer += 1) {
+        const y2 = block.y - layer * layerHeight;
+        const y1 = y2 - layerHeight;
+        const color = colors[layer % colors.length];
+        ctx.fillStyle = color;
+        ctx.fillRect(block.x, y1, frontWidth, layerHeight);
+        ctx.strokeStyle = 'rgba(55, 65, 81, 0.65)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(block.x, y1, frontWidth, layerHeight);
+      }
+
+      const topY = block.y - block.height * layerHeight;
+      ctx.beginPath();
+      ctx.moveTo(block.x, topY);
+      ctx.lineTo(block.x + depthX, topY - depthY);
+      ctx.lineTo(block.x + frontWidth + depthX, topY - depthY);
+      ctx.lineTo(block.x + frontWidth, topY);
+      ctx.closePath();
+      ctx.fillStyle = shadeColor(colors[(block.height - 1) % colors.length], 18);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(block.x + frontWidth, block.y);
+      ctx.lineTo(block.x + frontWidth + depthX, block.y - depthY);
+      ctx.lineTo(block.x + frontWidth + depthX, topY - depthY);
+      ctx.lineTo(block.x + frontWidth, topY);
+      ctx.closePath();
+      ctx.fillStyle = shadeColor(colors[0], -24);
+      ctx.fill();
+      ctx.stroke();
+
+      for (let row = 0; row < block.width; row += 1) {
+        for (let col = 0; col < block.length; col += 1) {
+          const cx = block.x + studSize * (col + 0.5) + dx * (row + 0.5);
+          const cy = topY - dy * (row + 0.5) - 2;
+          drawStud(cx, cy);
+        }
+      }
+    }
+
+    function renderCanvas() {
+      drawCheckerboard();
+      stacks.forEach((block) => drawBlock(block));
+      scheduleAutoDetect();
+    }
+
+    function rebuildStackEditor() {
+      stackList.innerHTML = '';
+      stacks.forEach((block, index) => {
+        const item = document.createElement('div');
+        item.className = 'stack-item';
+        item.innerHTML = `
+          <h3>主体 ${index + 1}</h3>
+          <div class="mini-grid">
+            <div><label>X</label><input type="number" data-field="x" data-index="${index}" value="${block.x}" min="40" max="560"></div>
+            <div><label>Y</label><input type="number" data-field="y" data-index="${index}" value="${block.y}" min="180" max="390"></div>
+            <div><label>长</label><input type="number" data-field="length" data-index="${index}" value="${block.length}" min="1" max="6"></div>
+            <div><label>宽</label><input type="number" data-field="width" data-index="${index}" value="${block.width}" min="1" max="6"></div>
+            <div><label>高</label><input type="number" data-field="height" data-index="${index}" value="${block.height}" min="1" max="6"></div>
+            <div>
+              <label>配色</label>
+              <select data-field="palette" data-index="${index}">
+                <option value="classic" ${block.palette === 'classic' ? 'selected' : ''}>经典</option>
+                <option value="rainbow" ${block.palette === 'rainbow' ? 'selected' : ''}>彩虹</option>
+                <option value="warm" ${block.palette === 'warm' ? 'selected' : ''}>暖色</option>
+                <option value="cool" ${block.palette === 'cool' ? 'selected' : ''}>冷色</option>
+              </select>
+            </div>
+          </div>
+          <div class="row-actions">
+            <button class="btn-secondary" type="button" data-remove="${index}">删除主体</button>
+          </div>
+        `;
+        stackList.appendChild(item);
+      });
+
+      stackList.querySelectorAll('input, select').forEach((element) => {
+        element.addEventListener('input', onFieldChange);
+      });
+      stackList.querySelectorAll('[data-remove]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const index = Number(button.dataset.remove);
+          stacks.splice(index, 1);
+          rebuildStackEditor();
+          renderCanvas();
+        });
+      });
+    }
+
+    function onFieldChange(event) {
+      const index = Number(event.target.dataset.index);
+      const field = event.target.dataset.field;
+      stacks[index][field] = field === 'palette' ? event.target.value : Number(event.target.value);
+      renderCanvas();
+    }
+
+    function updateLiveResult(result) {
+      liveStatus.textContent = '实时检测完成';
+      liveSummary.innerHTML = '';
+      (result.summary || []).forEach((item) => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        liveSummary.appendChild(li);
+      });
+      liveSummary.classList.toggle('hidden', (result.summary || []).length === 0);
+
+      liveObjects.innerHTML = '';
+      (result.objects || []).forEach((item) => {
+        const block = document.createElement('div');
+        block.className = 'object-item';
+        block.innerHTML = `<strong>${item.name}</strong><div>形态：${item.shape}</div><div>置信度：${item.confidence}</div>`;
+        liveObjects.appendChild(block);
+      });
+      liveObjects.classList.toggle('hidden', (result.objects || []).length === 0);
+
+      liveOriginal.src = result.original_image || '';
+      liveAnnotated.src = result.annotated_image || '';
+    }
+
+    async function runAutoDetect() {
+      const currentSerial = ++requestSerial;
+      generatedImageInput.value = canvas.toDataURL('image/png');
+      liveStatus.textContent = '正在自动检测…';
+      try {
+        const body = new FormData();
+        body.append('mode', 'generated_multi');
+        body.append('generated_image', generatedImageInput.value);
+        const response = await fetch('/detect-json', { method: 'POST', body });
+        const payload = await response.json();
+        if (currentSerial !== requestSerial) return;
+        if (!response.ok || !payload.ok) throw new Error(payload.error || '检测失败');
+        updateLiveResult(payload.result);
+      } catch (error) {
+        if (currentSerial !== requestSerial) return;
+        liveStatus.textContent = `自动检测失败：${error.message}`;
+      }
+    }
+
+    function scheduleAutoDetect() {
+      clearTimeout(detectTimer);
+      detectTimer = setTimeout(runAutoDetect, 350);
+    }
+
+    addStackButton.addEventListener('click', () => {
+      const offset = stacks.length * 90;
+      stacks.push({ x: 80 + offset, y: 340, length: 1, width: 1, height: 2, palette: 'classic' });
+      rebuildStackEditor();
+      renderCanvas();
+    });
+
+    resetStacksButton.addEventListener('click', () => {
+      stacks = defaultStacks();
+      rebuildStackEditor();
+      renderCanvas();
+    });
+
+    downloadCanvasButton.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'lego_generated_model.png';
+      link.click();
+    });
+
+    generatorForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      generatedImageInput.value = canvas.toDataURL('image/png');
+      runAutoDetect();
+    });
+
+    stacks = defaultStacks();
+    rebuildStackEditor();
+    renderCanvas();
+  </script>
+</body>
+</html>
