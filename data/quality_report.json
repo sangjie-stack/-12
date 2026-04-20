@@ -20,24 +20,24 @@
   "missing_classes": [],
   "extra_classes": [],
   "per_class_counts": {
-    "1x1": 40,
-    "1x2": 40,
-    "1x4": 40,
-    "2x2": 40,
-    "2x3": 40,
-    "2x4": 40
+    "1x1": 20,
+    "1x2": 20,
+    "1x4": 20,
+    "2x2": 20,
+    "2x3": 20,
+    "2x4": 20
   },
   "invalid_files": [],
   "invalid_file_count": 0,
   "format_distribution": {
-    "PNG": 240
+    "PNG": 120
   },
   "mode_distribution": {
-    "RGB": 224,
+    "RGB": 104,
     "RGBA": 16
   },
   "dimension_summary": {
-    "total_images": 240,
+    "total_images": 120,
     "min_width": 146,
     "max_width": 602,
     "min_height": 141,
