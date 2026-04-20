@@ -19,3 +19,6 @@ yolov8_stud_size/.mypy_cache/
 yolov8_stud_size/__pycache__/
 yolov8_stud_size/src/**/__pycache__/
 yolov8_stud_size/scripts/**/__pycache__/
+
+~$*.docx
+_report_copy.docx

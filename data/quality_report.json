@@ -1,0 +1,42 @@
+{
+  "dataset_root": "data\\raw",
+  "class_count": 6,
+  "classes": [
+    "1x1",
+    "1x2",
+    "1x4",
+    "2x2",
+    "2x3",
+    "2x4"
+  ],
+  "expected_classes": [
+    "1x1",
+    "1x2",
+    "1x4",
+    "2x2",
+    "2x3",
+    "2x4"
+  ],
+  "missing_classes": [],
+  "extra_classes": [],
+  "per_class_counts": {
+    "1x1": 0,
+    "1x2": 0,
+    "1x4": 0,
+    "2x2": 0,
+    "2x3": 0,
+    "2x4": 0
+  },
+  "invalid_files": [],
+  "invalid_file_count": 0,
+  "format_distribution": {},
+  "mode_distribution": {},
+  "dimension_summary": {
+    "total_images": 0,
+    "min_width": 0,
+    "max_width": 0,
+    "min_height": 0,
+    "max_height": 0
+  },
+  "per_class_example_sizes": {}
+}
