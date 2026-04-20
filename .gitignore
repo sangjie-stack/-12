@@ -22,3 +22,9 @@ yolov8_stud_size/scripts/**/__pycache__/
 
 ~$*.docx
 _report_copy.docx
+data/processed/*/
+!data/processed/.gitkeep
+data/splits/train/
+data/splits/val/
+data/splits/test/
+assets/lemuwu_crawl_report_test.json

@@ -1,0 +1,899 @@
+{
+  "classes": {
+    "1x1": {
+      "part_id": "3005",
+      "title": "1x1 基础砖",
+      "requested": 20,
+      "downloaded": 20,
+      "files": [
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0001_3005_69_深米色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@69.png",
+          "color_id": 69,
+          "color_name": "深米色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0002_3005_150_中肉色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@150.png",
+          "color_id": 150,
+          "color_name": "中肉色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0003_3005_85_深灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@85.png",
+          "color_id": 85,
+          "color_name": "深灰色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0004_3005_86_浅灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@86.png",
+          "color_id": 86,
+          "color_name": "浅灰色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0005_3005_88_棕色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@88.png",
+          "color_id": 88,
+          "color_name": "棕色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0006_3005_68_深橙色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@68.png",
+          "color_id": 68,
+          "color_name": "深橙色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0007_3005_2_米色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@2.png",
+          "color_id": 2,
+          "color_name": "米色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0008_3005_11_黑色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@11.png",
+          "color_id": 11,
+          "color_name": "黑色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0009_3005_5_红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@5.png",
+          "color_id": 5,
+          "color_name": "红色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0010_3005_1_白色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@1.png",
+          "color_id": 1,
+          "color_name": "白色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0011_3005_90_浅肉色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@90.png",
+          "color_id": 90,
+          "color_name": "浅肉色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0012_3005_39_蓝绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@39.png",
+          "color_id": 39,
+          "color_name": "蓝绿色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0013_3005_103_浅黄色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@103.png",
+          "color_id": 103,
+          "color_name": "浅黄色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0014_3005_120_深棕色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@120.png",
+          "color_id": 120,
+          "color_name": "深棕色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0015_3005_154_浅紫色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@154.png",
+          "color_id": 154,
+          "color_name": "浅紫色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0016_3005_155_橄榄绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@155.png",
+          "color_id": 155,
+          "color_name": "橄榄绿色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0017_3005_110_中黄色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@110.png",
+          "color_id": 110,
+          "color_name": "中黄色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0018_3005_156_中湖蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@156.png",
+          "color_id": 156,
+          "color_name": "中湖蓝色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0019_3005_152_水绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@152.png",
+          "color_id": 152,
+          "color_name": "水绿色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x1\\lemuwu_1x1_0020_3005_104_粉红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3005@104.png",
+          "color_id": 104,
+          "color_name": "粉红色",
+          "abundance": 9
+        }
+      ],
+      "available_colors": 77
+    },
+    "1x2": {
+      "part_id": "3004",
+      "title": "1x2 基础砖",
+      "requested": 20,
+      "downloaded": 20,
+      "files": [
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0001_3004_150_中肉色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@150.png",
+          "color_id": 150,
+          "color_name": "中肉色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0002_3004_69_深米色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@69.png",
+          "color_id": 69,
+          "color_name": "深米色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0003_3004_63_深蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@63.png",
+          "color_id": 63,
+          "color_name": "深蓝色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0004_3004_85_深灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@85.png",
+          "color_id": 85,
+          "color_name": "深灰色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0005_3004_86_浅灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@86.png",
+          "color_id": 86,
+          "color_name": "浅灰色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0006_3004_88_棕色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@88.png",
+          "color_id": 88,
+          "color_name": "棕色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0007_3004_2_米色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@2.png",
+          "color_id": 2,
+          "color_name": "米色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0008_3004_3_黄色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@3.png",
+          "color_id": 3,
+          "color_name": "黄色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0009_3004_7_蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@7.png",
+          "color_id": 7,
+          "color_name": "蓝色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0010_3004_11_黑色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@11.png",
+          "color_id": 11,
+          "color_name": "黑色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0011_3004_1_白色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@1.png",
+          "color_id": 1,
+          "color_name": "白色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0012_3004_5_红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@5.png",
+          "color_id": 5,
+          "color_name": "红色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0013_3004_220_珊瑚粉色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@220.png",
+          "color_id": 220,
+          "color_name": "珊瑚粉色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0014_3004_105_浅蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@105.png",
+          "color_id": 105,
+          "color_name": "浅蓝色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0015_3004_154_浅紫色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@154.png",
+          "color_id": 154,
+          "color_name": "浅紫色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0016_3004_152_水绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@152.png",
+          "color_id": 152,
+          "color_name": "水绿色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0017_3004_156_中湖蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@156.png",
+          "color_id": 156,
+          "color_name": "中湖蓝色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0018_3004_103_浅黄色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@103.png",
+          "color_id": 103,
+          "color_name": "浅黄色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0019_3004_153_深湖蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@153.png",
+          "color_id": 153,
+          "color_name": "深湖蓝色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x2\\lemuwu_1x2_0020_3004_155_橄榄绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3004@155.png",
+          "color_id": 155,
+          "color_name": "橄榄绿色",
+          "abundance": 9
+        }
+      ],
+      "available_colors": 71
+    },
+    "1x4": {
+      "part_id": "3010",
+      "title": "1x4 基础砖",
+      "requested": 20,
+      "downloaded": 20,
+      "files": [
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0001_3010_69_深米色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@69.png",
+          "color_id": 69,
+          "color_name": "深米色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0002_3010_85_深灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@85.png",
+          "color_id": 85,
+          "color_name": "深灰色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0003_3010_86_浅灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@86.png",
+          "color_id": 86,
+          "color_name": "浅灰色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0004_3010_2_米色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@2.png",
+          "color_id": 2,
+          "color_name": "米色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0005_3010_1_白色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@1.png",
+          "color_id": 1,
+          "color_name": "白色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0006_3010_11_黑色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@11.png",
+          "color_id": 11,
+          "color_name": "黑色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0007_3010_90_浅肉色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@90.png",
+          "color_id": 90,
+          "color_name": "浅肉色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0008_3010_150_中肉色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@150.png",
+          "color_id": 150,
+          "color_name": "中肉色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0009_3010_152_水绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@152.png",
+          "color_id": 152,
+          "color_name": "水绿色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0010_3010_105_浅蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@105.png",
+          "color_id": 105,
+          "color_name": "浅蓝色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0011_3010_103_浅黄色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@103.png",
+          "color_id": 103,
+          "color_name": "浅黄色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0012_3010_156_中湖蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@156.png",
+          "color_id": 156,
+          "color_name": "中湖蓝色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0013_3010_59_深红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@59.png",
+          "color_id": 59,
+          "color_name": "深红色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0014_3010_63_深蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@63.png",
+          "color_id": 63,
+          "color_name": "深蓝色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0015_3010_88_棕色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@88.png",
+          "color_id": 88,
+          "color_name": "棕色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0016_3010_68_深橙色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@68.png",
+          "color_id": 68,
+          "color_name": "深橙色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0017_3010_4_橙色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@4.png",
+          "color_id": 4,
+          "color_name": "橙色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0018_3010_3_黄色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@3.png",
+          "color_id": 3,
+          "color_name": "黄色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0019_3010_5_红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@5.png",
+          "color_id": 5,
+          "color_name": "红色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\1x4\\lemuwu_1x4_0020_3010_7_蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3010@7.png",
+          "color_id": 7,
+          "color_name": "蓝色",
+          "abundance": 9
+        }
+      ],
+      "available_colors": 66
+    },
+    "2x2": {
+      "part_id": "3003",
+      "title": "2x2 基础砖",
+      "requested": 20,
+      "downloaded": 20,
+      "files": [
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0001_3003_85_深灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@85.png",
+          "color_id": 85,
+          "color_name": "深灰色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0002_3003_86_浅灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@86.png",
+          "color_id": 86,
+          "color_name": "浅灰色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0003_3003_88_棕色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@88.png",
+          "color_id": 88,
+          "color_name": "棕色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0004_3003_2_米色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@2.png",
+          "color_id": 2,
+          "color_name": "米色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0005_3003_1_白色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@1.png",
+          "color_id": 1,
+          "color_name": "白色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0006_3003_5_红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@5.png",
+          "color_id": 5,
+          "color_name": "红色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0007_3003_11_黑色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@11.png",
+          "color_id": 11,
+          "color_name": "黑色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0008_3003_150_中肉色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@150.png",
+          "color_id": 150,
+          "color_name": "中肉色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0009_3003_156_中湖蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@156.png",
+          "color_id": 156,
+          "color_name": "中湖蓝色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0010_3003_104_粉红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@104.png",
+          "color_id": 104,
+          "color_name": "粉红色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0011_3003_69_深米色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@69.png",
+          "color_id": 69,
+          "color_name": "深米色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0012_3003_34_浅绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@34.png",
+          "color_id": 34,
+          "color_name": "浅绿色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0013_3003_4_橙色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@4.png",
+          "color_id": 4,
+          "color_name": "橙色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0014_3003_6_绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@6.png",
+          "color_id": 6,
+          "color_name": "绿色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0015_3003_7_蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@7.png",
+          "color_id": 7,
+          "color_name": "蓝色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0016_3003_3_黄色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@3.png",
+          "color_id": 3,
+          "color_name": "黄色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0017_3003_152_水绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@152.png",
+          "color_id": 152,
+          "color_name": "水绿色",
+          "abundance": 8
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0018_3003_220_珊瑚粉色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@220.png",
+          "color_id": 220,
+          "color_name": "珊瑚粉色",
+          "abundance": 8
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0019_3003_110_中黄色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@110.png",
+          "color_id": 110,
+          "color_name": "中黄色",
+          "abundance": 8
+        },
+        {
+          "path": "data\\raw\\2x2\\lemuwu_2x2_0020_3003_103_浅黄色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3003@103.png",
+          "color_id": 103,
+          "color_name": "浅黄色",
+          "abundance": 8
+        }
+      ],
+      "available_colors": 78
+    },
+    "2x3": {
+      "part_id": "3002",
+      "title": "2x3 基础砖",
+      "requested": 20,
+      "downloaded": 20,
+      "files": [
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0001_3002_86_浅灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@86.png",
+          "color_id": 86,
+          "color_name": "浅灰色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0002_3002_85_深灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@85.png",
+          "color_id": 85,
+          "color_name": "深灰色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0003_3002_88_棕色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@88.png",
+          "color_id": 88,
+          "color_name": "棕色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0004_3002_2_米色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@2.png",
+          "color_id": 2,
+          "color_name": "米色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0005_3002_1_白色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@1.png",
+          "color_id": 1,
+          "color_name": "白色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0006_3002_11_黑色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@11.png",
+          "color_id": 11,
+          "color_name": "黑色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0007_3002_3_黄色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@3.png",
+          "color_id": 3,
+          "color_name": "黄色",
+          "abundance": 8
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0008_3002_5_红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@5.png",
+          "color_id": 5,
+          "color_name": "红色",
+          "abundance": 8
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0009_3002_7_蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@7.png",
+          "color_id": 7,
+          "color_name": "蓝色",
+          "abundance": 8
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0010_3002_4_橙色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@4.png",
+          "color_id": 4,
+          "color_name": "橙色",
+          "abundance": 7
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0011_3002_6_绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@6.png",
+          "color_id": 6,
+          "color_name": "绿色",
+          "abundance": 7
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0012_3002_155_橄榄绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@155.png",
+          "color_id": 155,
+          "color_name": "橄榄绿色",
+          "abundance": 6
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0013_3002_34_浅绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@34.png",
+          "color_id": 34,
+          "color_name": "浅绿色",
+          "abundance": 6
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0014_3002_63_深蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@63.png",
+          "color_id": 63,
+          "color_name": "深蓝色",
+          "abundance": 5
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0015_3002_104_粉红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@104.png",
+          "color_id": 104,
+          "color_name": "粉红色",
+          "abundance": 5
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0016_3002_105_浅蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@105.png",
+          "color_id": 105,
+          "color_name": "浅蓝色",
+          "abundance": 3
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0017_3002_47_深粉红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@47.png",
+          "color_id": 47,
+          "color_name": "深粉红色",
+          "abundance": 3
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0018_3002_89_深紫色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@89.png",
+          "color_id": 89,
+          "color_name": "深紫色",
+          "abundance": 2
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0019_3002_36_亮绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@36.png",
+          "color_id": 36,
+          "color_name": "亮绿色",
+          "abundance": 1
+        },
+        {
+          "path": "data\\raw\\2x3\\lemuwu_2x3_0020_3002_71_酒红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3002@71.png",
+          "color_id": 71,
+          "color_name": "酒红色",
+          "abundance": 0
+        }
+      ],
+      "available_colors": 56
+    },
+    "2x4": {
+      "part_id": "3001",
+      "title": "2x4 基础砖",
+      "requested": 20,
+      "downloaded": 20,
+      "files": [
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0001_3001_85_深灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@85.png",
+          "color_id": 85,
+          "color_name": "深灰色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0002_3001_86_浅灰色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@86.png",
+          "color_id": 86,
+          "color_name": "浅灰色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0003_3001_88_棕色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@88.png",
+          "color_id": 88,
+          "color_name": "棕色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0004_3001_1_白色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@1.png",
+          "color_id": 1,
+          "color_name": "白色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0005_3001_5_红色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@5.png",
+          "color_id": 5,
+          "color_name": "红色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0006_3001_11_黑色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@11.png",
+          "color_id": 11,
+          "color_name": "黑色",
+          "abundance": 10
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0007_3001_150_中肉色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@150.png",
+          "color_id": 150,
+          "color_name": "中肉色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0008_3001_156_中湖蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@156.png",
+          "color_id": 156,
+          "color_name": "中湖蓝色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0009_3001_69_深米色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@69.png",
+          "color_id": 69,
+          "color_name": "深米色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0010_3001_34_浅绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@34.png",
+          "color_id": 34,
+          "color_name": "浅绿色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0011_3001_4_橙色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@4.png",
+          "color_id": 4,
+          "color_name": "橙色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0012_3001_2_米色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@2.png",
+          "color_id": 2,
+          "color_name": "米色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0013_3001_6_绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@6.png",
+          "color_id": 6,
+          "color_name": "绿色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0014_3001_3_黄色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@3.png",
+          "color_id": 3,
+          "color_name": "黄色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0015_3001_7_蓝色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@7.png",
+          "color_id": 7,
+          "color_name": "蓝色",
+          "abundance": 9
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0016_3001_220_珊瑚粉色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@220.png",
+          "color_id": 220,
+          "color_name": "珊瑚粉色",
+          "abundance": 8
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0017_3001_152_水绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@152.png",
+          "color_id": 152,
+          "color_name": "水绿色",
+          "abundance": 8
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0018_3001_157_中紫色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@157.png",
+          "color_id": 157,
+          "color_name": "中紫色",
+          "abundance": 8
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0019_3001_80_深绿色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@80.png",
+          "color_id": 80,
+          "color_name": "深绿色",
+          "abundance": 8
+        },
+        {
+          "path": "data\\raw\\2x4\\lemuwu_2x4_0020_3001_89_深紫色.png",
+          "url": "https://www.lemuwu.com/pic/part/ori/3001@89.png",
+          "color_id": 89,
+          "color_name": "深紫色",
+          "abundance": 8
+        }
+      ],
+      "available_colors": 75
+    }
+  },
+  "errors": []
+}

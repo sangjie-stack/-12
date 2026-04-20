@@ -95,9 +95,31 @@ def main() -> int:
     parser.add_argument("--size", type=int, default=64, help="Target image size for preprocessing.")
     parser.add_argument("--prefix", type=str, default="lego", help="Filename prefix after renaming.")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for dataset split.")
+    parser.add_argument(
+        "--generate-samples",
+        action="store_true",
+        help="Generate synthetic Brick sample images for the six base classes before preprocessing.",
+    )
+    parser.add_argument("--samples-per-class", type=int, default=20, help="Generated sample count for each class.")
+    parser.add_argument("--raw-image-size", type=int, default=320, help="Generated raw image size.")
     args = parser.parse_args()
 
     ensure_structure()
+    if args.generate_samples:
+        run_step(
+            [
+                sys.executable,
+                "utils/generate_brick_samples.py",
+                "data/raw",
+                "--samples-per-class",
+                str(args.samples_per_class),
+                "--image-size",
+                str(args.raw_image_size),
+                "--seed",
+                str(args.seed),
+                "--clean",
+            ]
+        )
     run_step(
         [
             sys.executable,

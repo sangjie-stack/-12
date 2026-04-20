@@ -1,0 +1,14 @@
+{
+  "output_root": "data\\raw",
+  "samples_per_class": 20,
+  "image_size": 320,
+  "seed": 42,
+  "classes": {
+    "1x1": 20,
+    "1x2": 20,
+    "1x4": 20,
+    "2x2": 20,
+    "2x3": 20,
+    "2x4": 20
+  }
+}
