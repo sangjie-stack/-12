@@ -1,194 +1,168 @@
-import base64
-import imghdr
-from typing import Any, Dict, List
+import streamlit as st
 
-import cv2
-import numpy as np
-from flask import Flask, jsonify, render_template, request
-
-from lego_generated_detector import detect_generated_objects, draw_generated_result
-from lego_multi_stack_detector import detect_multi_stack_objects, draw_result as draw_multi_stack_result
-from lego_size_detector import detect_lego_size, draw_result as draw_single_result
-
-
-app = Flask(__name__)
+from utils.stage3_streamlit import (
+    APP_CSS,
+    bgr_to_rgb,
+    build_about_context,
+    build_stage3_model_info,
+    image_bytes_to_pil,
+    pil_to_bgr,
+    run_geometry_detection,
+)
 
 
-def image_to_data_url(image: np.ndarray) -> str:
-    success, encoded = cv2.imencode(".png", image)
-    if not success:
-        raise ValueError("Could not encode image.")
-    payload = base64.b64encode(encoded.tobytes()).decode("ascii")
-    return f"data:image/png;base64,{payload}"
+DETECT_MODE_OPTIONS = {
+    "single": "单主体：尺寸 + 层高",
+    "size_only": "单主体：只看尺寸",
+    "height_only": "单主体：只看层高",
+    "multi_stack": "多主体：堆叠层数",
+}
 
 
-def read_uploaded_image(file_storage: Any) -> np.ndarray:
-    content = file_storage.read()
-    if not content:
-        raise ValueError("上传文件为空。")
+st.set_page_config(
+    page_title="乐高检测与识别应用",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
-    file_type = imghdr.what(None, h=content)
-    if file_type not in {"jpeg", "png", "webp", "bmp"}:
-        raise ValueError("仅支持 JPG、PNG、WEBP、BMP 图片。")
-
-    buffer = np.frombuffer(content, dtype=np.uint8)
-    image = cv2.imdecode(buffer, cv2.IMREAD_COLOR)
-    if image is None:
-        raise ValueError("无法读取上传图片。")
-    return image
+st.markdown(APP_CSS, unsafe_allow_html=True)
 
 
-def read_data_url_image(data_url: str) -> np.ndarray:
-    if not data_url or "," not in data_url:
-        raise ValueError("生成模型图片无效。")
-    _, encoded = data_url.split(",", 1)
-    content = base64.b64decode(encoded)
-    buffer = np.frombuffer(content, dtype=np.uint8)
-    image = cv2.imdecode(buffer, cv2.IMREAD_COLOR)
-    if image is None:
-        raise ValueError("无法解析生成模型图片。")
-    return image
+def render_summary_chips(items):
+    if not items:
+        st.info("当前没有可展示的识别摘要。")
+        return
+    columns = st.columns(min(4, len(items)))
+    for index, item in enumerate(items):
+        columns[index % len(columns)].markdown(
+            f"<div class='soft-card'><strong>{item}</strong></div>",
+            unsafe_allow_html=True,
+        )
 
 
-def build_single_payload(image: np.ndarray, mode: str) -> Dict[str, Any]:
-    result = detect_lego_size(image)
-    annotated = draw_single_result(
-        image,
-        result,
-        height_only=mode == "height_only",
-        size_only=mode == "size_only",
+def main() -> None:
+    model_info = build_stage3_model_info()
+    about_context = build_about_context()
+
+    st.markdown(
+        """
+        <div class="hero-card">
+          <p style="margin:0; letter-spacing:0.08em; text-transform:uppercase; opacity:0.84; font-weight:700;">Stage 3 / Streamlit Application</p>
+          <h1 style="margin:0.35rem 0 0.7rem 0;">乐高检测与识别应用</h1>
+          <p style="margin:0;">首页保留几何检测能力，分类模型、示例体验和阶段总览已迁移到 Streamlit 多页面结构中。</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
-    payload: Dict[str, Any] = {
-        "annotated_image": image_to_data_url(annotated),
-        "mode": mode,
-        "summary": [],
-    }
 
-    if mode != "height_only":
-        if result.dims != (0, 0):
-            payload["summary"].append(f"尺寸：{result.dims[0]} x {result.dims[1]}")
-            payload["summary"].append(f"尺寸置信度：{result.size_confidence:.2f}")
-        else:
-            payload["summary"].append("尺寸：未识别")
+    st.sidebar.success("当前已切换为 Streamlit 多页面应用。")
+    st.sidebar.caption("左侧侧边栏可切换到分类识别、示例体验和关于阶段页面。")
+    st.sidebar.metric("当前模型准确率", f"{model_info['accuracy_pct']}%" if model_info["accuracy_pct"] is not None else "未记录")
+    st.sidebar.metric("当前类别数", model_info["class_count"])
+    st.sidebar.metric("阶段 1 图片数", about_context["stage1"]["total_images"])
 
-    if mode != "size_only":
-        if result.height > 0:
-            payload["summary"].append(f"层高：{result.height}")
-            payload["summary"].append(f"层高置信度：{result.height_confidence:.2f}")
-        else:
-            payload["summary"].append("层高：未识别")
+    metric_columns = st.columns(4)
+    metric_columns[0].metric("应用框架", "Streamlit")
+    metric_columns[1].metric("当前分类模型", model_info["checkpoint_name"])
+    metric_columns[2].metric("测试准确率", f"{model_info['accuracy_pct']}%" if model_info["accuracy_pct"] is not None else "未记录")
+    metric_columns[3].metric("类别数", model_info["class_count"])
 
-    if result.dims != (0, 0) and result.height > 0 and mode == "single":
-        payload["summary"].append(f"三维形态：{result.dims[0]} x {result.dims[1]} x {result.height}")
-    return payload
+    overview_tab, geometry_tab = st.tabs(["项目概览", "几何检测"])
 
+    with overview_tab:
+        left_col, right_col = st.columns([1.1, 0.9], gap="large")
+        with left_col:
+            st.subheader("当前阶段能力")
+            st.markdown(
+                """
+                <ul class="feature-list">
+                  <li>首页提供单主体尺寸/层高检测和多主体堆叠检测。</li>
+                  <li><span class="inline-chip">Classification</span> 页面调用第二阶段 7 类 CNN 模型做图片识别。</li>
+                  <li><span class="inline-chip">Examples</span> 页面展示测试集样本和概率分布图。</li>
+                  <li><span class="inline-chip">About</span> 页面汇总第一、二、三阶段的关键结果。</li>
+                </ul>
+                """
+                ,
+                unsafe_allow_html=True,
+            )
+            st.markdown(
+                "<p class='muted-note'>现在运行入口已经改为 Streamlit，多页面导航由 Streamlit 侧边栏自动管理。</p>",
+                unsafe_allow_html=True,
+            )
 
-def build_multi_payload(image: np.ndarray) -> Dict[str, Any]:
-    objects = detect_multi_stack_objects(image)
-    annotated = draw_multi_stack_result(image, objects)
-    items: List[Dict[str, Any]] = []
-    for object_result in objects:
-        items.append(
-            {
-                "name": f"对象 {object_result.index}",
-                "shape": f"1 x 1 x {object_result.layers}",
-                "confidence": f"{object_result.confidence:.2f}",
-            }
+        with right_col:
+            st.subheader("阶段数据摘要")
+            stage1 = about_context["stage1"]
+            split_totals = stage1["split_totals"]
+            stage_columns = st.columns(3)
+            stage_columns[0].metric("Train", split_totals["train"])
+            stage_columns[1].metric("Val", split_totals["val"])
+            stage_columns[2].metric("Test", split_totals["test"])
+            st.caption(f"阶段 1 当前总图像数：{stage1['total_images']}，格式分布：{stage1['format_distribution']}")
+
+        st.subheader("运行方式")
+        st.markdown("<div class='command-block'>streamlit run app.py</div>", unsafe_allow_html=True)
+        st.info("分类识别、示例体验和关于阶段页面可通过左侧边栏直接切换。")
+
+    with geometry_tab:
+        st.subheader("图片几何检测")
+        st.markdown(
+            "<p class='muted-note'>这个页面保留原来的几何检测能力，适合展示尺寸、层高和多主体堆叠分析结果。</p>",
+            unsafe_allow_html=True,
         )
 
-    summary = [f"检测到主体数：{len(objects)}"]
-    if not objects:
-        summary.append("没有检测到可分离的主体。")
+        with st.form("geometry_detection_form"):
+            upload_col, mode_col = st.columns([1.05, 0.95], gap="large")
+            with upload_col:
+                uploaded_file = st.file_uploader(
+                    "上传待检测图片",
+                    type=["jpg", "jpeg", "png", "webp", "bmp"],
+                    help="支持真实乐高照片或实验演示图片。",
+                )
+            with mode_col:
+                selected_mode = st.selectbox(
+                    "选择检测模式",
+                    options=list(DETECT_MODE_OPTIONS.keys()),
+                    format_func=lambda key: DETECT_MODE_OPTIONS[key],
+                )
+            submitted = st.form_submit_button("开始检测", use_container_width=True)
 
-    return {
-        "annotated_image": image_to_data_url(annotated),
-        "original_image": image_to_data_url(image),
-        "mode": "multi_stack",
-        "summary": summary,
-        "objects": items,
-    }
-
-
-def build_generated_payload(image: np.ndarray) -> Dict[str, Any]:
-    objects = detect_generated_objects(image)
-    annotated = draw_generated_result(image, objects)
-    items: List[Dict[str, Any]] = []
-    for object_result in objects:
-        items.append(
-            {
-                "name": f"对象 {object_result.index}",
-                "shape": f"{object_result.dims[0]} x {object_result.dims[1]} x {object_result.height}",
-                "confidence": f"{object_result.confidence:.2f}",
-            }
-        )
-
-    summary = [f"检测到主体数：{len(objects)}"]
-    return {
-        "annotated_image": image_to_data_url(annotated),
-        "original_image": image_to_data_url(image),
-        "mode": "generated_multi",
-        "summary": summary,
-        "objects": items,
-    }
-
-
-def build_payload(image: np.ndarray, mode: str) -> Dict[str, Any]:
-    if mode == "generated_multi":
-        return build_generated_payload(image)
-    if mode == "multi_stack":
-        return build_multi_payload(image)
-
-    payload = build_single_payload(image, mode)
-    payload["original_image"] = image_to_data_url(image)
-    return payload
-
-
-@app.route("/", methods=["GET", "POST"])
-def index() -> str:
-    context: Dict[str, Any] = {
-        "result": None,
-        "error": None,
-        "selected_mode": "single",
-        "original_image": None,
-    }
-
-    if request.method == "POST":
-        file = request.files.get("image")
-        generated_image = request.form.get("generated_image", "")
-        mode = request.form.get("mode", "single")
-        context["selected_mode"] = mode
-
-        if (file is None or file.filename == "") and not generated_image:
-            context["error"] = "请先选择一张图片。"
-            return render_template("index.html", **context)
-
-        try:
-            if generated_image:
-                image = read_data_url_image(generated_image)
+        if submitted:
+            if uploaded_file is None:
+                st.warning("请先上传一张图片。")
             else:
-                image = read_uploaded_image(file)
-            context["original_image"] = image_to_data_url(image)
-            context["result"] = build_payload(image, mode)
-        except Exception as exc:
-            context["error"] = str(exc)
+                try:
+                    image = image_bytes_to_pil(uploaded_file.getvalue())
+                    original_bgr = pil_to_bgr(image)
+                    result = run_geometry_detection(original_bgr, selected_mode)
 
-    return render_template("index.html", **context)
+                    original_col, annotated_col = st.columns(2, gap="large")
+                    with original_col:
+                        st.markdown("#### 原图")
+                        st.image(image, use_container_width=True)
+                    with annotated_col:
+                        st.markdown("#### 标注图")
+                        st.image(bgr_to_rgb(result["annotated_image"]), use_container_width=True)
+
+                    st.markdown("#### 识别摘要")
+                    render_summary_chips(result["summary"])
+
+                    if result["objects"]:
+                        st.markdown("#### 对象明细")
+                        object_columns = st.columns(min(3, len(result["objects"])))
+                        for index, item in enumerate(result["objects"]):
+                            object_columns[index % len(object_columns)].markdown(
+                                (
+                                    "<div class='soft-card'>"
+                                    f"<strong>{item['name']}</strong><br>"
+                                    f"形态：{item['shape']}<br>"
+                                    f"置信度：{item['confidence']}"
+                                    "</div>"
+                                ),
+                                unsafe_allow_html=True,
+                            )
+                except Exception as exc:
+                    st.error(str(exc))
 
 
-@app.route("/detect-json", methods=["POST"])
-def detect_json():
-    try:
-        generated_image = request.form.get("generated_image", "")
-        mode = request.form.get("mode", "multi_stack")
-        if not generated_image:
-            return jsonify({"ok": False, "error": "缺少生成图片。"}), 400
-
-        image = read_data_url_image(generated_image)
-        payload = build_payload(image, mode)
-        return jsonify({"ok": True, "result": payload})
-    except Exception as exc:
-        return jsonify({"ok": False, "error": str(exc)}), 400
-
-
-if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True)
+main()
