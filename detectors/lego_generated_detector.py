@@ -1,10 +1,19 @@
+import sys
 from dataclasses import dataclass
+from pathlib import Path
 from typing import List, Sequence, Tuple
 
 import cv2
 import numpy as np
 
-from lego_multi_stack_detector import build_color_mask, count_color_bands
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+if __package__:
+    from .lego_multi_stack_detector import build_color_mask, count_color_bands
+else:
+    from detectors.lego_multi_stack_detector import build_color_mask, count_color_bands
 
 
 @dataclass

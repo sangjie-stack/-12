@@ -1,5 +1,6 @@
 import argparse
 import math
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional, Sequence, Tuple
@@ -7,7 +8,14 @@ from typing import List, Optional, Sequence, Tuple
 import cv2
 import numpy as np
 
-from lego_height_detector import detect_lego_height
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+if __package__:
+    from .lego_height_detector import detect_lego_height
+else:
+    from detectors.lego_height_detector import detect_lego_height
 
 
 @dataclass
@@ -669,7 +677,10 @@ def main() -> int:
         return 1
 
     if args.multi_stack:
-        from lego_multi_stack_detector import detect_multi_stack_objects, draw_result as draw_multi_stack_result
+        if __package__:
+            from .lego_multi_stack_detector import detect_multi_stack_objects, draw_result as draw_multi_stack_result
+        else:
+            from detectors.lego_multi_stack_detector import detect_multi_stack_objects, draw_result as draw_multi_stack_result
 
         objects = detect_multi_stack_objects(image)
         if not objects:

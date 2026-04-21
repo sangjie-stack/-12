@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Iterable, List
 
 
-BRICK_CLASSES = ["1x1", "1x2", "1x4", "2x2", "2x3", "2x4"]
+BRICK_CLASSES = ["1x1", "1x2", "1x3", "1x4", "2x2", "2x3", "2x4"]
 VALID_IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 IGNORED_FILENAMES = {".gitkeep"}
 

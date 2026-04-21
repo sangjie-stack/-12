@@ -1,5 +1,6 @@
 import argparse
 import math
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Sequence, Tuple
@@ -7,7 +8,14 @@ from typing import List, Sequence, Tuple
 import cv2
 import numpy as np
 
-from lego_size_detector import detect_circles
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+if __package__:
+    from .lego_size_detector import detect_circles
+else:
+    from detectors.lego_size_detector import detect_circles
 
 
 @dataclass

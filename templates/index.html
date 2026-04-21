@@ -16,6 +16,43 @@
       margin: 0 auto;
       padding: 24px;
     }
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      padding: 16px 20px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+    .brand {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1f6feb;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav-links a {
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: #52606d;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .nav-links a.active,
+    .nav-links a:hover {
+      background: #eef4ff;
+      color: #1f4ea3;
+    }
     .hero {
       background: linear-gradient(135deg, #1f6feb, #7c3aed);
       color: #fff;
@@ -198,6 +235,13 @@
       display: block;
     }
     @media (max-width: 920px) {
+      .top-nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .nav-links {
+        justify-content: flex-start;
+      }
       .grid,
       .generator-layout {
         grid-template-columns: 1fr;
@@ -207,9 +251,19 @@
 </head>
 <body>
   <div class="page">
+    <div class="top-nav">
+      <a class="brand" href="{{ url_for('index') }}">LEGO Project</a>
+      <div class="nav-links">
+        <a class="{% if active_page == 'detect' %}active{% endif %}" href="{{ url_for('index') }}">几何检测</a>
+        <a href="{{ url_for('classifier') }}">分类识别</a>
+        <a href="{{ url_for('examples') }}">示例体验</a>
+        <a href="{{ url_for('about') }}">关于阶段</a>
+      </div>
+    </div>
+
     <div class="hero">
       <h1>乐高模型检测页面</h1>
-      <p>支持上传真实图片检测，也支持在前端直接生成乐高模型并自动识别长、宽、高。</p>
+      <p>支持上传真实图片做几何检测，也支持在前端直接生成乐高模型；如果需要调用第二阶段分类模型，可进入上方的“分类识别”页面。</p>
     </div>
 
     <div class="card">
