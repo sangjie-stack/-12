@@ -3,6 +3,8 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+scripts/**/__pycache__/
+detectors/__pycache__/
 
 app_stdout.log
 app_stderr.log
@@ -28,3 +30,11 @@ data/splits/train/
 data/splits/val/
 data/splits/test/
 assets/lemuwu_crawl_report_test.json
+
+# Local temporary artifacts
+.edge-headless/
+.edge-headless-dom/
+.tmp_pip/
+__docx_preview/
+__docx_preview.zip
+__preview_doc.zip
