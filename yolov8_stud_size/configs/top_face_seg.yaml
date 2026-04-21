@@ -1,6 +1,0 @@
-path: ../datasets/top_face_seg
-train: images/train
-val: images/val
-
-names:
-  0: top_face

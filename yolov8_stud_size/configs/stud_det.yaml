@@ -1,6 +1,0 @@
-path: ../datasets/stud_det
-train: images/train
-val: images/val
-
-names:
-  0: stud
