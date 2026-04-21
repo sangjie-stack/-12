@@ -5,8 +5,13 @@ import streamlit as st
 from utils.stage3_streamlit import (
     APP_CSS,
     MAX_HISTORY_ITEMS,
+    build_badge_row,
+    build_empty_state,
+    build_key_value_list,
+    build_panel_card,
     build_probability_figure,
     build_stage3_model_info,
+    build_stat_grid,
     classify_uploaded_bytes,
 )
 
@@ -37,17 +42,44 @@ def main() -> None:
         """,
         unsafe_allow_html=True,
     )
-    st.info("页面已经秒开；分类模型会在你第一次点击“开始识别”时自动初始化。")
+    st.markdown(
+        build_badge_row(
+            [
+                {"label": "批量上传", "tone": "blue"},
+                {"label": "拍照识别", "tone": "success"},
+                {"label": "识别历史", "tone": "violet"},
+            ]
+        ),
+        unsafe_allow_html=True,
+    )
 
-    info_columns = st.columns(4)
-    info_columns[0].metric("当前模型", model_info["checkpoint_name"])
-    info_columns[1].metric("测试准确率", f"{model_info['accuracy_pct']}%" if model_info["accuracy_pct"] is not None else "未记录")
-    info_columns[2].metric("推理设备", model_info["device"])
-    info_columns[3].metric("类别数", model_info["class_count"])
+    st.markdown(
+        build_stat_grid(
+            [
+                {"label": "当前模型", "value": model_info["checkpoint_name"], "note": "应用默认 checkpoint", "tone": "blue"},
+                {
+                    "label": "测试准确率",
+                    "value": f"{model_info['accuracy_pct']}%" if model_info["accuracy_pct"] is not None else "未记录",
+                    "note": f"Loss {model_info['loss']}" if model_info["loss"] is not None else "未记录",
+                    "tone": "success",
+                },
+                {"label": "推理设备", "value": model_info["device"], "note": "首次识别时初始化", "tone": "slate"},
+                {"label": "类别数", "value": model_info["class_count"], "note": "当前为 7 类 Brick", "tone": "violet"},
+            ]
+        ),
+        unsafe_allow_html=True,
+    )
 
     left_col, right_col = st.columns([1.05, 0.95], gap="large")
     with left_col:
-        st.subheader("上传或拍照")
+        st.markdown(
+            build_panel_card(
+                "上传或拍照",
+                "<p class='muted-note'>支持一次上传多张图片，也支持移动端直接拍照。点击开始识别后，会统一走同一条模型推理链路。</p>",
+                eyebrow="Input",
+            ),
+            unsafe_allow_html=True,
+        )
         uploaded_files = st.file_uploader(
             "批量选择图片",
             type=["jpg", "jpeg", "png", "webp", "bmp"],
@@ -56,6 +88,18 @@ def main() -> None:
         )
         camera_file = st.camera_input("拍照识别", help="移动端可直接调用摄像头。")
         run_clicked = st.button("开始识别", type="primary", use_container_width=True)
+
+        selected_count = len(uploaded_files or []) + (1 if camera_file is not None else 0)
+        if selected_count:
+            st.markdown(
+                build_badge_row(
+                    [
+                        {"label": f"待识别 {selected_count} 张", "tone": "success"},
+                        {"label": "结果会自动写入历史", "tone": "slate"},
+                    ]
+                ),
+                unsafe_allow_html=True,
+            )
 
         if run_clicked:
             candidates = []
@@ -85,29 +129,88 @@ def main() -> None:
                 push_history(history_entries)
 
     with right_col:
-        st.subheader("模型配置")
-        st.caption(model_info["checkpoint_path"])
         st.markdown(
-            f"""
-            - 数据根目录：`{model_info['data_root']}`
-            - 推理设备：`{model_info['device']}`
-            - 自动裁剪：`{'开启' if model_info['auto_crop'] else '关闭'}`
-            - 图像尺寸：`{model_info['image_size']}`
-            - 类别列表：`{' / '.join(model_info['class_names'])}`
-            """
+            build_panel_card(
+                "模型配置",
+                build_key_value_list(
+                    [
+                        ("数据根目录", model_info["data_root"]),
+                        ("推理设备", model_info["device"]),
+                        ("自动裁剪", "开启" if model_info["auto_crop"] else "关闭"),
+                        ("图像尺寸", model_info["image_size"]),
+                        ("类别列表", " / ".join(model_info["class_names"])),
+                    ]
+                ),
+                eyebrow="Inference",
+                footer_html=build_badge_row(
+                    [
+                        {"label": "统一 checkpoint 加载", "tone": "blue"},
+                        {"label": "Top-K 概率输出", "tone": "violet"},
+                    ]
+                ),
+            ),
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            build_panel_card(
+                "识别说明",
+                """
+                <ul class="feature-list">
+                  <li>首次点击开始识别时，页面会自动初始化模型。</li>
+                  <li>同一次识别支持图片上传和拍照混合输入。</li>
+                  <li>结果区会同时显示原图、Top-1 预测和概率分布图。</li>
+                </ul>
+                """,
+                eyebrow="Workflow",
+                tone="slate",
+            ),
+            unsafe_allow_html=True,
         )
 
     st.subheader("识别结果")
     results = st.session_state.get("classifier_results", [])
     if not results:
-        st.info("上传图片后，这里会显示预测类别、置信度和 Plotly 概率分布图。")
+        st.markdown(
+            build_empty_state("结果区已就绪", "上传图片或拍照后，这里会显示预测类别、置信度和 Plotly 概率分布图。"),
+            unsafe_allow_html=True,
+        )
     else:
+        max_confidence = max(item["confidence_pct"] for item in results)
+        st.markdown(
+            build_stat_grid(
+                [
+                    {"label": "本次识别数量", "value": len(results), "note": "支持批量处理", "tone": "blue"},
+                    {"label": "最高置信度", "value": f"{max_confidence:.2f}%", "note": "当前批次最佳", "tone": "success"},
+                ]
+            ),
+            unsafe_allow_html=True,
+        )
         for item in results:
+            secondary_label = item["top_probabilities"][1]["class_name"] if len(item["top_probabilities"]) > 1 else "无"
+            st.markdown(
+                build_panel_card(
+                    item["filename"],
+                    build_key_value_list(
+                        [
+                            ("Top-1 预测", item["predicted_class"]),
+                            ("Top-1 置信度", f"{item['confidence_pct']}%"),
+                            ("输入尺寸", f"{item['image_size'][0]} x {item['image_size'][1]}"),
+                            ("次高概率类别", secondary_label),
+                        ]
+                    ),
+                    eyebrow="Prediction",
+                    footer_html=build_badge_row(
+                        [
+                            {"label": f"预测 {item['predicted_class']}", "tone": "blue"},
+                            {"label": f"置信度 {item['confidence_pct']}%", "tone": "success"},
+                        ]
+                    ),
+                ),
+                unsafe_allow_html=True,
+            )
             card_col, chart_col = st.columns([0.9, 1.1], gap="large")
             with card_col:
                 st.image(item["image_bytes"], caption=item["filename"], use_container_width=True)
-                st.metric("预测类别", item["predicted_class"], delta=f"{item['confidence_pct']}%")
-                st.caption(f"输入尺寸：{item['image_size'][0]} x {item['image_size'][1]}")
             with chart_col:
                 figure = build_probability_figure(item["top_probabilities"], title=f"{item['filename']} 概率分布")
                 st.plotly_chart(figure, use_container_width=True)
@@ -121,19 +224,27 @@ def main() -> None:
                 st.session_state["classifier_history"] = []
 
     if not st.session_state["classifier_history"]:
-        st.caption("当前还没有识别历史。")
+        st.markdown(build_empty_state("当前还没有识别历史", "完成一次识别后，最近记录会显示在这里。"), unsafe_allow_html=True)
     else:
+        history_cards = ["<div class='history-stack'>"]
         for entry in st.session_state["classifier_history"]:
-            st.markdown(
+            badge_html = build_badge_row(
+                [
+                    {"label": f"预测 {entry['predicted_class']}", "tone": "blue"},
+                    {"label": f"{entry['confidence_pct']}%", "tone": "success"},
+                ]
+            )
+            history_cards.append(
                 (
-                    "<div class='soft-card'>"
-                    f"<strong>{entry['filename']}</strong><br>"
-                    f"预测为 {entry['predicted_class']}，置信度 {entry['confidence_pct']}%<br>"
+                    "<div class='history-card'>"
+                    f"<strong>{entry['filename']}</strong>"
+                    f"<div>{badge_html}</div>"
                     f"<span class='muted-note'>{entry['timestamp']}</span>"
                     "</div>"
-                ),
-                unsafe_allow_html=True,
+                )
             )
+        history_cards.append("</div>")
+        st.markdown("".join(history_cards), unsafe_allow_html=True)
 
 
 main()

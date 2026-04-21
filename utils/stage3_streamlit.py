@@ -1,5 +1,6 @@
 import io
 import json
+from html import escape
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, List, Sequence
@@ -22,6 +23,9 @@ APP_CSS = """
     --ios-blue: #0a84ff;
     --ios-blue-soft: #64d2ff;
     --ios-indigo: #5e5ce6;
+    --ios-success: #22c55e;
+    --ios-warning: #f59e0b;
+    --ios-slate: #475569;
     --ios-shadow: 0 18px 42px rgba(0, 0, 0, 0.06);
     --ios-shadow-soft: 0 10px 26px rgba(0, 0, 0, 0.045);
     --ios-border: rgba(217, 217, 223, 0.95);
@@ -179,6 +183,243 @@ APP_CSS = """
     box-shadow: var(--ios-shadow);
     backdrop-filter: blur(14px) saturate(160%);
     -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+
+  .panel-card {
+    position: relative;
+    padding: 1.1rem 1.15rem;
+    border-radius: 1.45rem;
+    border: 1px solid var(--ios-border);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 250, 255, 0.95));
+    box-shadow: var(--ios-shadow);
+    overflow: hidden;
+  }
+
+  .panel-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--ios-blue), var(--ios-blue-soft));
+  }
+
+  .panel-card.is-success::before {
+    background: linear-gradient(180deg, #16a34a, #4ade80);
+  }
+
+  .panel-card.is-warn::before {
+    background: linear-gradient(180deg, #d97706, #fbbf24);
+  }
+
+  .panel-card.is-violet::before {
+    background: linear-gradient(180deg, #5e5ce6, #8b5cf6);
+  }
+
+  .panel-eyebrow {
+    margin: 0 0 0.35rem 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ios-blue) !important;
+  }
+
+  .panel-title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--ios-text) !important;
+  }
+
+  .panel-body {
+    margin-top: 0.75rem;
+    line-height: 1.75;
+  }
+
+  .panel-footer {
+    margin-top: 0.9rem;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.85rem;
+    margin: 0.45rem 0 1rem 0;
+  }
+
+  .stat-card {
+    position: relative;
+    padding: 1rem 1.05rem;
+    border-radius: 1.35rem;
+    border: 1px solid var(--ios-border);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 255, 0.94));
+    box-shadow: var(--ios-shadow-soft);
+    overflow: hidden;
+  }
+
+  .stat-card::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(180deg, var(--ios-blue), var(--ios-blue-soft));
+  }
+
+  .stat-card.is-success::after {
+    background: linear-gradient(180deg, #16a34a, #4ade80);
+  }
+
+  .stat-card.is-warn::after {
+    background: linear-gradient(180deg, #d97706, #fbbf24);
+  }
+
+  .stat-card.is-violet::after {
+    background: linear-gradient(180deg, #5e5ce6, #8b5cf6);
+  }
+
+  .stat-card.is-slate::after {
+    background: linear-gradient(180deg, #475569, #94a3b8);
+  }
+
+  .stat-label {
+    margin: 0;
+    font-size: 0.83rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ios-muted) !important;
+  }
+
+  .stat-value {
+    margin: 0.4rem 0 0 0;
+    font-size: 1.45rem;
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+    color: var(--ios-text) !important;
+  }
+
+  .stat-note {
+    margin: 0.55rem 0 0 0;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--ios-muted) !important;
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.72rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    background: rgba(10, 132, 255, 0.1);
+    color: #1259b7 !important;
+    border: 1px solid rgba(10, 132, 255, 0.14);
+  }
+
+  .status-badge.is-success {
+    background: rgba(34, 197, 94, 0.11);
+    border-color: rgba(34, 197, 94, 0.18);
+    color: #137333 !important;
+  }
+
+  .status-badge.is-warn {
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.18);
+    color: #b45309 !important;
+  }
+
+  .status-badge.is-violet {
+    background: rgba(94, 92, 230, 0.12);
+    border-color: rgba(94, 92, 230, 0.18);
+    color: #4f46e5 !important;
+  }
+
+  .status-badge.is-slate {
+    background: rgba(71, 85, 105, 0.11);
+    border-color: rgba(71, 85, 105, 0.16);
+    color: #334155 !important;
+  }
+
+  .kv-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .kv-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.95rem;
+    padding: 0.6rem 0.78rem;
+    border-radius: 1rem;
+    background: rgba(248, 250, 252, 0.9);
+    border: 1px solid rgba(226, 232, 240, 0.92);
+  }
+
+  .kv-label {
+    min-width: 4.5rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--ios-muted) !important;
+  }
+
+  .kv-value {
+    flex: 1;
+    text-align: right;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ios-text) !important;
+    word-break: break-word;
+  }
+
+  .empty-state {
+    padding: 1.35rem 1.2rem;
+    border-radius: 1.45rem;
+    border: 1px dashed rgba(148, 163, 184, 0.4);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(245, 248, 252, 0.94));
+    box-shadow: var(--ios-shadow-soft);
+  }
+
+  .empty-state h3 {
+    margin: 0;
+    font-size: 1.08rem;
+  }
+
+  .empty-state p {
+    margin: 0.55rem 0 0 0;
+    line-height: 1.7;
+    color: var(--ios-muted) !important;
+  }
+
+  .history-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .history-card {
+    padding: 1rem 1.05rem;
+    border-radius: 1.25rem;
+    border: 1px solid var(--ios-border);
+    background: var(--ios-panel-strong);
+    box-shadow: var(--ios-shadow-soft);
+  }
+
+  .history-card strong {
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .history-card .muted-note {
+    display: inline-block;
+    margin-top: 0.35rem;
   }
 
   .feature-list {
@@ -481,6 +722,93 @@ def build_stage3_model_info() -> Dict[str, Any]:
     }
 
 
+def _escape_text(value: Any) -> str:
+    return escape("" if value is None else str(value))
+
+
+def build_badge_row(items: Sequence[Dict[str, Any]]) -> str:
+    badges: List[str] = []
+    for item in items:
+        label = _escape_text(item.get("label"))
+        if not label:
+            continue
+        tone = _escape_text(item.get("tone", "blue"))
+        badges.append(f"<span class='status-badge is-{tone}'>{label}</span>")
+    if not badges:
+        return ""
+    return "<div class='badge-row'>" + "".join(badges) + "</div>"
+
+
+def build_stat_grid(items: Sequence[Dict[str, Any]]) -> str:
+    cards: List[str] = []
+    for item in items:
+        label = _escape_text(item.get("label"))
+        value = _escape_text(item.get("value"))
+        note = item.get("note")
+        note_html = f"<p class='stat-note'>{_escape_text(note)}</p>" if note else ""
+        tone = _escape_text(item.get("tone", "blue"))
+        cards.append(
+            (
+                f"<div class='stat-card is-{tone}'>"
+                f"<p class='stat-label'>{label}</p>"
+                f"<h3 class='stat-value'>{value}</h3>"
+                f"{note_html}"
+                "</div>"
+            )
+        )
+    if not cards:
+        return ""
+    return "<div class='stat-grid'>" + "".join(cards) + "</div>"
+
+
+def build_key_value_list(rows: Sequence[Sequence[Any]]) -> str:
+    entries: List[str] = []
+    for row in rows:
+        if len(row) < 2:
+            continue
+        label = _escape_text(row[0])
+        value = _escape_text(row[1])
+        entries.append(
+            (
+                "<div class='kv-row'>"
+                f"<span class='kv-label'>{label}</span>"
+                f"<span class='kv-value'>{value}</span>"
+                "</div>"
+            )
+        )
+    if not entries:
+        return ""
+    return "<div class='kv-list'>" + "".join(entries) + "</div>"
+
+
+def build_panel_card(
+    title: str,
+    body_html: str,
+    eyebrow: str = "",
+    footer_html: str = "",
+    tone: str = "blue",
+) -> str:
+    eyebrow_html = f"<p class='panel-eyebrow'>{_escape_text(eyebrow)}</p>" if eyebrow else ""
+    footer = f"<div class='panel-footer'>{footer_html}</div>" if footer_html else ""
+    return (
+        f"<div class='panel-card is-{_escape_text(tone)}'>"
+        f"{eyebrow_html}"
+        f"<h3 class='panel-title'>{_escape_text(title)}</h3>"
+        f"<div class='panel-body'>{body_html}</div>"
+        f"{footer}"
+        "</div>"
+    )
+
+
+def build_empty_state(title: str, body: str) -> str:
+    return (
+        "<div class='empty-state'>"
+        f"<h3>{_escape_text(title)}</h3>"
+        f"<p>{_escape_text(body)}</p>"
+        "</div>"
+    )
+
+
 def image_bytes_to_pil(content: bytes) -> Image.Image:
     if not content:
         raise ValueError("上传文件为空。")
@@ -568,6 +896,7 @@ def build_example_cards() -> List[Dict[str, Any]]:
                 "filename": sample_path.name,
                 "expected_class": item.get("expected_class", "未记录"),
                 "predicted_class": item.get("predicted_class", "未记录"),
+                "is_correct": item.get("predicted_class", "未记录") == item.get("expected_class", "未记录"),
                 "confidence": float(item.get("confidence", 0.0)),
                 "confidence_pct": round(float(item.get("confidence", 0.0)) * 100, 2),
                 "top_probabilities": scores,
@@ -598,6 +927,7 @@ def build_example_cards() -> List[Dict[str, Any]]:
             {
                 "filename": sample_path.name,
                 "expected_class": class_name,
+                "is_correct": card["predicted_class"] == class_name,
                 "image_bytes": preview_bytes,
                 "image_path": str(sample_path),
             }
@@ -647,6 +977,10 @@ def build_about_context() -> Dict[str, Any]:
                 {
                     "title": "Plotly 概率可视化",
                     "body": "分类页面和示例页面都提供 Plotly 概率分布条形图，并配合双栏布局提升展示效果。",
+                },
+                {
+                    "title": "批量识别与拍照入口",
+                    "body": "分类页面支持批量上传、移动端拍照识别和历史记录展示，更适合课堂演示和实际试用。",
                 },
             ],
         },
