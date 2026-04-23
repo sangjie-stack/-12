@@ -4,13 +4,12 @@ from typing import Any, Dict, List, Optional, Sequence
 
 import torch
 
-from model.lego_cnn import LegoCNN
+from model.lego_cnn import LegoCNN, create_lego_cnn_from_config
+from model.stage3_config import DEFAULT_STAGE3_CHECKPOINT, DEFAULT_STAGE3_DATA_ROOT
 from model.training_utils import infer_checkpoint_class_names, infer_class_names
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_STAGE3_CHECKPOINT = Path("runs/stage2/improve_raw128_autocrop_lr5e4_7class_v6/best_model.pth")
-DEFAULT_STAGE3_DATA_ROOT = Path("data/splits_stage2_raw")
 
 
 @dataclass
@@ -44,12 +43,7 @@ def load_lego_classifier(
     candidate_class_names = list(class_names or infer_class_names(data_root))
     resolved_class_names = infer_checkpoint_class_names(checkpoint, default_class_names=candidate_class_names)
 
-    model = LegoCNN(
-        num_classes=len(resolved_class_names),
-        base_channels=config["base_channels"],
-        depth=config["depth"],
-        dropout=config["dropout"],
-    ).to(resolved_device)
+    model = create_lego_cnn_from_config(config, num_classes=len(resolved_class_names)).to(resolved_device)
     model.load_state_dict(checkpoint["model_state_dict"])
     model.eval()
 

@@ -3,7 +3,7 @@ import json
 import random
 import shutil
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from dataset_config import VALID_IMAGE_SUFFIXES, list_class_directories, should_ignore_file
 
@@ -38,6 +38,14 @@ def copy_files(paths: List[Path], destination: Path) -> None:
         shutil.copy2(path, destination / path.name)
 
 
+def split_train_only_files(files: List[Path], train_only_marker: Optional[str]) -> Tuple[List[Path], List[Path]]:
+    if not train_only_marker:
+        return files, []
+    regular_files = [path for path in files if train_only_marker not in path.stem]
+    train_only_files = [path for path in files if train_only_marker in path.stem]
+    return regular_files, train_only_files
+
+
 def clear_split_root(root: Path) -> None:
     if not root.exists():
         return
@@ -67,6 +75,12 @@ def main() -> int:
         default=Path("data/splits/split_report.json"),
         help="Output JSON report path.",
     )
+    parser.add_argument(
+        "--train-only-marker",
+        type=str,
+        default=None,
+        help="Optional filename marker. Matching files are forced into the train split only.",
+    )
     args = parser.parse_args()
 
     ratio_sum = args.train_ratio + args.val_ratio + args.test_ratio
@@ -84,14 +98,15 @@ def main() -> int:
             path for path in sorted(class_dir.iterdir())
             if path.is_file() and not should_ignore_file(path) and path.suffix.lower() in VALID_IMAGE_SUFFIXES
         ]
-        random.shuffle(files)
+        regular_files, train_only_files = split_train_only_files(files, args.train_only_marker)
+        random.shuffle(regular_files)
         train_count, val_count, test_count = allocate_counts(
-            len(files), args.train_ratio, args.val_ratio, args.test_ratio
+            len(regular_files), args.train_ratio, args.val_ratio, args.test_ratio
         )
 
-        train_files = files[:train_count]
-        val_files = files[train_count:train_count + val_count]
-        test_files = files[train_count + val_count:train_count + val_count + test_count]
+        train_files = regular_files[:train_count] + train_only_files
+        val_files = regular_files[train_count:train_count + val_count]
+        test_files = regular_files[train_count + val_count:train_count + val_count + test_count]
 
         copy_files(train_files, args.output_root / "train" / class_dir.name)
         copy_files(val_files, args.output_root / "val" / class_dir.name)

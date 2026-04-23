@@ -3,44 +3,48 @@
 ## Dataset Overview
 
 - Dataset root: `data\raw`
-- Class count: 6
-- Total valid images: 120
+- Class count: 7
+- Total valid images: 213
 - Invalid files: 0
 - Missing classes: none
 - Extra classes: none
 
 ## Per-class Counts
 
-- 1x1: 20
-- 1x2: 20
-- 1x4: 20
-- 2x2: 20
-- 2x3: 20
-- 2x4: 20
+- 1x1: 34
+- 1x2: 43
+- 1x3: 3
+- 1x4: 38
+- 2x2: 23
+- 2x3: 31
+- 2x4: 41
 
 ## Split Summary
 
-- train: 84
-  - 1x1: 14
-  - 1x2: 14
-  - 1x4: 14
-  - 2x2: 14
-  - 2x3: 14
-  - 2x4: 14
-- val: 18
-  - 1x1: 3
-  - 1x2: 3
-  - 1x4: 3
+- train: 148
+  - 1x1: 24
+  - 1x2: 30
+  - 1x3: 1
+  - 1x4: 26
+  - 2x2: 16
+  - 2x3: 22
+  - 2x4: 29
+- val: 34
+  - 1x1: 5
+  - 1x2: 7
+  - 1x3: 1
+  - 1x4: 6
+  - 2x2: 4
+  - 2x3: 5
+  - 2x4: 6
+- test: 31
+  - 1x1: 5
+  - 1x2: 6
+  - 1x3: 1
+  - 1x4: 6
   - 2x2: 3
-  - 2x3: 3
-  - 2x4: 3
-- test: 18
-  - 1x1: 3
-  - 1x2: 3
-  - 1x4: 3
-  - 2x2: 3
-  - 2x3: 3
-  - 2x4: 3
+  - 2x3: 4
+  - 2x4: 6
 
 ## Generated Files
 

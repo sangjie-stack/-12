@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}乐高阶段三应用{% endblock %}</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --line: #dbe4ee;
+      --text: #16202a;
+      --muted: #52606d;
+      --primary: #0f766e;
+      --primary-soft: #d9f3ef;
+      --accent: #f97316;
+      --accent-soft: #fff1e8;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --radius: 20px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.12), transparent 22%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .page-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(219, 228, 238, 0.85);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+    .brand {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav-link {
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .nav-link:hover,
+    .nav-link.active {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(250px, 0.8fr);
+      gap: 20px;
+      margin-top: 20px;
+      padding: 30px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #0f766e, #f97316);
+      color: #ffffff;
+      box-shadow: 0 16px 34px rgba(15, 118, 110, 0.22);
+    }
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.84;
+    }
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: 34px;
+    }
+    .hero p {
+      margin: 0;
+      line-height: 1.6;
+      opacity: 0.94;
+    }
+    .hero-meta {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+    .hero-chip {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(6px);
+    }
+    .hero-chip strong {
+      display: block;
+      font-size: 22px;
+      margin-top: 4px;
+    }
+    .card {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .grid {
+      display: grid;
+      gap: 20px;
+    }
+    .grid.two-column {
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+    }
+    .grid.three-column {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 20px;
+    }
+    .muted {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    label {
+      font-weight: 600;
+    }
+    input[type="file"],
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      font: inherit;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .primary-btn,
+    .secondary-btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .primary-btn {
+      background: var(--primary);
+      color: #ffffff;
+    }
+    .secondary-btn {
+      background: var(--accent-soft);
+      color: #a9490d;
+      border: 1px solid #ffd4b5;
+    }
+    .error {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      color: #b42318;
+    }
+    .stats-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .stat-card {
+      padding: 18px;
+      border-radius: 18px;
+      background: #fbfcfe;
+      border: 1px solid var(--line);
+    }
+    .stat-card span {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .stat-card strong {
+      font-size: 28px;
+    }
+    .tag-list,
+    .pill-list {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    .tag-list li,
+    .pill-list li {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #eef7ff;
+      color: #115c9b;
+      font-size: 14px;
+    }
+    .result-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .preview {
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #eef4f7, #f8fafc);
+      border: 1px solid var(--line);
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .preview img {
+      display: block;
+      width: 100%;
+      max-height: 280px;
+      object-fit: contain;
+    }
+    .prediction-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .prediction-header h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .probability-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .probability-row {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr) 56px;
+      gap: 10px;
+      align-items: center;
+      font-size: 14px;
+    }
+    .bar-track {
+      height: 10px;
+      border-radius: 999px;
+      background: #edf2f7;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    .history-list,
+    .info-list {
+      display: grid;
+      gap: 12px;
+    }
+    .history-item,
+    .info-item {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #fbfcfe;
+      border: 1px solid var(--line);
+    }
+    .history-item strong,
+    .info-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+    .split-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .split-card {
+      padding: 16px;
+      border-radius: 18px;
+      background: #fbfcfe;
+      border: 1px solid var(--line);
+    }
+    .split-card h3 {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+    .empty-state {
+      padding: 22px;
+      border-radius: 18px;
+      background: #fbfcfe;
+      border: 1px dashed var(--line);
+      color: var(--muted);
+      text-align: center;
+    }
+    @media (max-width: 960px) {
+      .hero,
+      .grid.two-column,
+      .grid.three-column,
+      .stats-grid,
+      .split-grid {
+        grid-template-columns: 1fr;
+      }
+      .top-nav {
+        border-radius: 22px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .nav-links {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <nav class="top-nav">
+      <a href="{{ url_for('index') }}" class="brand">LEGO Project</a>
+      <div class="nav-links">
+        <a class="nav-link {% if active_page == 'detect' %}active{% endif %}" href="{{ url_for('index') }}">几何检测</a>
+        <a class="nav-link {% if active_page == 'classifier' %}active{% endif %}" href="{{ url_for('classifier') }}">分类识别</a>
+        <a class="nav-link {% if active_page == 'examples' %}active{% endif %}" href="{{ url_for('examples') }}">示例体验</a>
+        <a class="nav-link {% if active_page == 'about' %}active{% endif %}" href="{{ url_for('about') }}">关于阶段</a>
+      </div>
+    </nav>
+
+    {% block hero %}{% endblock %}
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

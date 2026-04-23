@@ -1,0 +1,131 @@
+{% extends "stage3_base.html" %}
+
+{% block title %}乐高分类识别{% endblock %}
+
+{% block hero %}
+  <section class="hero">
+    <div>
+      <p class="eyebrow">第三阶段 / 应用开发与部署</p>
+      <h1>乐高分类识别页面</h1>
+      <p>这里直接接入第二阶段训练好的 7 类 Brick 分类模型，支持单张、批量和手机拍照识别，并保留最近识别历史。</p>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-chip">
+        <span>当前模型</span>
+        <strong>{{ model_info.checkpoint_name }}</strong>
+      </div>
+      <div class="hero-chip">
+        <span>测试准确率</span>
+        <strong>{% if model_info.accuracy_pct is not none %}{{ model_info.accuracy_pct }}%{% else %}未记录{% endif %}</strong>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <section class="grid two-column">
+    <div class="card">
+      <h2 class="section-title">上传图片</h2>
+      <p class="muted">支持一次上传多张图片，也支持手机端直接调用相机进行拍照识别。</p>
+      <form method="post" enctype="multipart/form-data">
+        <div class="field">
+          <label for="images">选择图片</label>
+          <input id="images" name="images" type="file" accept="image/*" capture="environment" multiple required>
+        </div>
+        <div class="actions">
+          <button class="primary-btn" type="submit">开始识别</button>
+          <a class="secondary-btn" href="{{ url_for('examples') }}">查看示例体验</a>
+        </div>
+      </form>
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">模型配置</h2>
+      <div class="info-list">
+        <div class="info-item">
+          <strong>使用 checkpoint</strong>
+          <div class="muted">{{ model_info.checkpoint_path }}</div>
+        </div>
+        <div class="info-item">
+          <strong>训练数据根目录</strong>
+          <div class="muted">{{ model_info.data_root }}</div>
+        </div>
+        <div class="info-item">
+          <strong>类别列表</strong>
+          <ul class="pill-list">
+            {% for class_name in model_info.class_names %}
+              <li>{{ class_name }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid two-column">
+    <div class="card">
+      <h2 class="section-title">识别结果</h2>
+      {% if results %}
+        <div class="result-grid">
+          {% for item in results %}
+            <article class="info-item">
+              <div class="preview">
+                <img src="{{ item.image_data_url }}" alt="{{ item.filename }}">
+              </div>
+              <div class="prediction-header">
+                <div>
+                  <h3>{{ item.filename }}</h3>
+                  <div class="muted">输入尺寸：{{ item.image_size[0] }} x {{ item.image_size[1] }}</div>
+                </div>
+                <ul class="tag-list">
+                  <li>预测：{{ item.predicted_class }}</li>
+                  <li>置信度：{{ item.confidence_pct }}%</li>
+                </ul>
+              </div>
+              <div class="probability-list">
+                {% for score in item.top_probabilities %}
+                  <div class="probability-row">
+                    <span>{{ score.class_name }}</span>
+                    <div class="bar-track">
+                      <div class="bar-fill" style="width: {{ score.probability_pct }}%;"></div>
+                    </div>
+                    <strong>{{ score.probability_pct }}%</strong>
+                  </div>
+                {% endfor %}
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">上传一张或多张乐高图片后，这里会显示预测类别和 Top-K 概率分布。</div>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <div class="prediction-header">
+        <h2 class="section-title">识别历史</h2>
+        {% if history %}
+          <form method="post" action="{{ url_for('clear_classifier_history') }}">
+            <button class="secondary-btn" type="submit">清空历史</button>
+          </form>
+        {% endif %}
+      </div>
+      {% if history %}
+        <div class="history-list">
+          {% for item in history %}
+            <div class="history-item">
+              <strong>{{ item.filename }}</strong>
+              <div class="muted">预测为 {{ item.predicted_class }}，置信度 {{ item.confidence_pct }}%</div>
+              <div class="muted">{{ item.timestamp }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">当前还没有识别历史。识别过的结果会保存在当前浏览器会话里。</div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

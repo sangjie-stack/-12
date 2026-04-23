@@ -1,0 +1,134 @@
+{% extends "stage3_base.html" %}
+
+{% block title %}关于阶段完成情况{% endblock %}
+
+{% block hero %}
+  <section class="hero">
+    <div>
+      <p class="eyebrow">阶段状态总览</p>
+      <h1>第一、二、三阶段完成情况</h1>
+      <p>这一页把数据准备、模型训练和应用接入三条链路放到一起，便于直接对照实验阶段报告里的“完成情况”和“结果与分析”。</p>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-chip">
+        <span>阶段 1 数据量</span>
+        <strong>{{ stage1.total_images }}</strong>
+      </div>
+      <div class="hero-chip">
+        <span>阶段 2 当前准确率</span>
+        <strong>{% if stage2.accuracy_pct is not none %}{{ stage2.accuracy_pct }}%{% else %}未记录{% endif %}</strong>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <section class="card">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span>阶段 1 类别数</span>
+        <strong>{{ stage1.class_count }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>阶段 2 当前类别数</span>
+        <strong>{{ stage2.class_count }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>阶段 3 已接入页面</span>
+        <strong>{{ stage3.page_count }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid three-column">
+    <article class="card">
+      <h2 class="section-title">第一阶段：数据准备</h2>
+      <ul class="tag-list">
+        <li>总图片：{{ stage1.total_images }}</li>
+        <li>训练集：{{ stage1.split_totals.train }}</li>
+        <li>验证集：{{ stage1.split_totals.val }}</li>
+        <li>测试集：{{ stage1.split_totals.test }}</li>
+      </ul>
+      <div class="info-list" style="margin-top: 14px;">
+        <div class="info-item">
+          <strong>格式分布</strong>
+          <div class="muted">
+            {% for name, value in stage1.format_distribution.items() %}
+              {{ name }}={{ value }}{% if not loop.last %}，{% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="info-item">
+          <strong>每类样本数</strong>
+          <div class="muted">
+            {% for name, value in stage1.per_class_counts.items() %}
+              {{ name }}={{ value }}{% if not loop.last %}，{% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2 class="section-title">第二阶段：模型训练</h2>
+      <ul class="tag-list">
+        <li>checkpoint：{{ stage2.checkpoint_name }}</li>
+        <li>图像尺寸：{{ stage2.image_size }}</li>
+        <li>自动裁剪：{{ "开启" if stage2.auto_crop else "关闭" }}</li>
+      </ul>
+      <div class="info-list" style="margin-top: 14px;">
+        <div class="info-item">
+          <strong>当前测试指标</strong>
+          <div class="muted">准确率：{% if stage2.accuracy_pct is not none %}{{ stage2.accuracy_pct }}%{% else %}未记录{% endif %}</div>
+          <div class="muted">损失：{% if stage2.loss is not none %}{{ stage2.loss }}{% else %}未记录{% endif %}</div>
+        </div>
+        <div class="info-item">
+          <strong>类别列表</strong>
+          <div class="muted">
+            {% for class_name in stage2.class_names %}
+              {{ class_name }}{% if not loop.last %}，{% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2 class="section-title">第三阶段：应用接入</h2>
+      <ul class="tag-list">
+        <li>多页面导航</li>
+        <li>批量识别</li>
+        <li>拍照入口</li>
+        <li>识别历史</li>
+      </ul>
+      <div class="info-list" style="margin-top: 14px;">
+        {% for feature in stage3.features %}
+          <div class="info-item">
+            <strong>{{ feature.title }}</strong>
+            <div class="muted">{{ feature.body }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </article>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title">数据划分对照</h2>
+    <div class="split-grid">
+      {% for split_name, split_value in stage1.split_totals.items() %}
+        <div class="split-card">
+          <h3>阶段 1 / {{ split_name }}</h3>
+          <div class="muted">样本数：{{ split_value }}</div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="split-grid" style="margin-top: 14px;">
+      {% for split_name, split_value in stage2.split_totals.items() %}
+        <div class="split-card">
+          <h3>阶段 2 / {{ split_name }}</h3>
+          <div class="muted">样本数：{{ split_value }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

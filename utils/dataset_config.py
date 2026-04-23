@@ -3,6 +3,8 @@ from typing import Iterable, List
 
 
 BRICK_CLASSES = ["1x1", "1x2", "1x3", "1x4", "2x2", "2x3", "2x4"]
+PLATE_CLASSES = ["plate_2x2", "plate_2x4", "plate_4x4"]
+BRICK_PLATE_CLASSES = BRICK_CLASSES + PLATE_CLASSES
 VALID_IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 IGNORED_FILENAMES = {".gitkeep"}
 

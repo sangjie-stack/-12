@@ -1,0 +1,67 @@
+{% extends "stage3_base.html" %}
+
+{% block title %}乐高示例体验{% endblock %}
+
+{% block hero %}
+  <section class="hero">
+    <div>
+      <p class="eyebrow">第三阶段 / 示例体验</p>
+      <h1>示例体验页面</h1>
+      <p>这里自动抽取第二阶段测试集中的样本，直接展示当前 7 类模型在真实数据上的预测结果，便于阶段汇报时快速演示。</p>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-chip">
+        <span>示例数量</span>
+        <strong>{{ examples|length }}</strong>
+      </div>
+      <div class="hero-chip">
+        <span>当前模型准确率</span>
+        <strong>{% if model_info.accuracy_pct is not none %}{{ model_info.accuracy_pct }}%{% else %}未记录{% endif %}</strong>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <section class="card">
+    <h2 class="section-title">测试集样本预测</h2>
+    <p class="muted">每个类别默认展示 1 张样本，字段中的“期望类别”来自目录标签，“模型预测”来自当前应用实际调用的分类推理模块。</p>
+  </section>
+
+  <section class="card">
+    {% if examples %}
+      <div class="result-grid">
+        {% for item in examples %}
+          <article class="info-item">
+            <div class="preview">
+              <img src="{{ item.image_data_url }}" alt="{{ item.filename }}">
+            </div>
+            <div class="prediction-header">
+              <div>
+                <h3>{{ item.filename }}</h3>
+                <div class="muted">期望类别：{{ item.expected_class }}</div>
+              </div>
+              <ul class="tag-list">
+                <li>模型预测：{{ item.predicted_class }}</li>
+                <li>置信度：{{ item.confidence_pct }}%</li>
+              </ul>
+            </div>
+            <div class="probability-list">
+              {% for score in item.top_probabilities %}
+                <div class="probability-row">
+                  <span>{{ score.class_name }}</span>
+                  <div class="bar-track">
+                    <div class="bar-fill" style="width: {{ score.probability_pct }}%;"></div>
+                  </div>
+                  <strong>{{ score.probability_pct }}%</strong>
+                </div>
+              {% endfor %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">暂时没有可展示的测试集样本，请先确认 `data/splits_stage2_raw/test` 已生成。</div>
+    {% endif %}
+  </section>
+{% endblock %}
